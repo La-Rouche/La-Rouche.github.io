@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F3EBD8">
+<title>La Rouche — Coffee Shop &amp; Bakery · Since 2010</title>
+<meta name="description" content="منيو La Rouche — مطعم ومخبز وكوفي شوب منذ 2010. مناقيش، سندوتشات، حلويات، قهوة مختصة وأكثر.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ================= LA ROUCHE — vintage bakery engine v2 ================= */
+:root{
+  --bg:#F3EBD8;
+  --bg-2:#EDE2C8;
+  --card:#FCF8EC;
+  --ink:#3A2817;
+  --ink-soft:#6B5237;
+  --line:#C9B48E;
+  --accent:#7A5638;
+  --deep:#5C4330;
+  --gold:#B08D57;
+  --gold-2:#CBA96A;
+  --chip:#EFE5CD;
+  --shadow:0 14px 40px rgba(58,40,23,.16);
+  --shadow-lg:0 26px 60px rgba(58,40,23,.24);
+  --ring:rgba(176,141,87,.45);
+  --radius:18px;
+}
+html.dark{
+  --bg:#1C140D;
+  --bg-2:#241B12;
+  --card:#2A1F16;
+  --ink:#F2E8D2;
+  --ink-soft:#CBB794;
+  --line:#4E3D2A;
+  --accent:#CDA877;
+  --deep:#E6D1A8;
+  --gold:#CBA96A;
+  --gold-2:#E0C489;
+  --chip:#33271A;
+  --shadow:0 16px 44px rgba(0,0,0,.5);
+  --shadow-lg:0 30px 70px rgba(0,0,0,.6);
+  --ring:rgba(203,169,106,.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  background:var(--bg);color:var(--ink);
+  min-height:100dvh;overflow-x:hidden;
+  transition:background .6s,color .6s;
+}
+/* atmosphere: grain + soft vignette */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .22 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(120% 90% at 50% 0%,transparent 55%,rgba(58,40,23,.10) 100%);
+}
+.lat{font-family:'Cinzel',serif}
+.cormorant{font-family:'Cormorant Garamond',serif}
+.rq{font-family:'Aref Ruqaa',serif}
+
+/* ================= EMBLEM (logo) ================= */
+.emblem{display:block;width:100%;height:auto;overflow:visible}
+.emblem .fr-out{fill:var(--card)}
+.steam{stroke:var(--accent);stroke-width:2;stroke-linecap:round;fill:none;opacity:.55;
+  animation:steam 3.4s ease-in-out infinite}
+.steam.s2{animation-delay:.5s}
+.steam.s3{animation-delay:1s}
+@keyframes steam{0%,100%{opacity:.25;transform:translateY(2px) scaleY(.96)}50%{opacity:.75;transform:translateY(-2px) scaleY(1.04)}}
+
+/* ================= SPLASH ================= */
+#splash{
+  position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  background:radial-gradient(circle at 50% 42%,var(--bg-2),var(--bg));
+  transition:opacity .8s ease,visibility .8s;
+}
+#splash.gone{opacity:0;visibility:hidden}
+#splash .em-wrap{width:min(80vw,430px);opacity:0;transform:scale(.86) translateY(10px);
+  animation:emIn 1.2s cubic-bezier(.2,.8,.2,1) forwards .1s}
+@keyframes emIn{to{opacity:1;transform:none}}
+#splash .em-wrap::after{ /* gold shimmer sweep */
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,245,220,.55) 50%,transparent 65%);
+  transform:translateX(-120%);animation:sweep 1.4s ease .9s}
+@keyframes sweep{to{transform:translateX(120%)}}
+#splash .em-wrap{position:relative}
+#splash .since{letter-spacing:.4em;font-size:11px;color:var(--gold);opacity:0;animation:fadeUp .8s ease forwards 1.2s}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ================= HEADER ================= */
+header{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb,var(--bg) 86%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .3s;
+}
+header.scrolled{border-bottom-color:var(--line);box-shadow:0 6px 22px rgba(58,40,23,.10)}
+.hd-in{max-width:880px;margin:auto;display:flex;align-items:center;gap:12px;padding:9px 16px}
+.hd-logo{display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none}
+.hd-logo .cup{display:block;width:34px;height:34px;flex:0 0 auto}
+.hd-name{line-height:1}
+.hd-name b{font-size:18px;letter-spacing:.14em;display:block}
+.hd-name span{display:block;font-size:9px;letter-spacing:.34em;color:var(--gold);margin-top:4px}
+.hd-sp{flex:1}
+.icon-btn{
+  width:42px;height:42px;border-radius:13px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.icon-btn:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(58,40,23,.12)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:19px;height:19px}
+
+/* ================= HERO (full-bleed gradient photo) ================= */
+.hero{position:relative;text-align:center;z-index:1;overflow:hidden;
+  margin-top:-60px;padding:104px 20px 10px}
+.hero .hero-bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.hero .hero-bg img{
+  width:100%;height:100%;object-fit:cover;object-position:center 52%;
+  opacity:.58;filter:saturate(1.08);
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.98) 8%,rgba(0,0,0,.55) 52%,transparent 92%);
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.98) 8%,rgba(0,0,0,.55) 52%,transparent 92%);
+  animation:kenburns 22s ease-in-out infinite alternate}
+html.dark .hero .hero-bg img{opacity:.40}
+.hero .em-wrap{position:relative;width:min(78vw,360px);margin:auto;filter:drop-shadow(0 16px 34px rgba(58,40,23,.28));
+  animation:fadeUp 1s ease both}
+.hero .tag{
+  font-family:'Aref Ruqaa',serif;font-weight:700;
+  font-size:clamp(17px,4.6vw,22px);color:var(--ink);margin-top:18px;line-height:1.7;
+  animation:fadeUp 1s ease both .25s}
+.hero .tag em{color:var(--accent);font-style:normal}
+.hero .est{display:inline-flex;align-items:center;gap:14px;margin-top:16px;color:var(--gold);font-size:11px;letter-spacing:.4em;
+  animation:fadeUp 1s ease both .45s}
+.hero .est::before,.hero .est::after{content:'';width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.hero .est::after{background:linear-gradient(90deg,var(--gold),transparent)}
+
+@keyframes kenburns{from{transform:scale(1.05) translate(0,0)}to{transform:scale(1.14) translate(-2%,-2%)}}
+
+/* ================= HOME GRID ================= */
+.grid-wrap{max-width:880px;margin:auto;padding:8px 16px 60px;position:relative;z-index:1}
+.sec-title{display:flex;align-items:center;justify-content:center;gap:16px;margin:30px 4px 20px;color:var(--ink-soft);font-size:13px;letter-spacing:.22em;font-weight:600}
+.sec-title span{white-space:nowrap}
+.sec-title::before,.sec-title::after{content:'';flex:1;max-width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+/* ================= CATEGORY GRID ================= */
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+@media(min-width:640px){
+  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  /* a lone card in the last row sits centered instead of stranded on one side */
+  .cat-grid > .cat-tile:last-child:nth-child(3n+1){grid-column:2}
+}
+.cat-tile{
+  position:relative;overflow:hidden;aspect-ratio:1/.86;
+  background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);cursor:pointer;
+  box-shadow:0 6px 18px rgba(58,40,23,.10);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;
+}
+.cat-tile .ph{position:absolute;inset:0}
+.cat-tile .ph img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.cat-tile:hover .ph img{transform:scale(1.1)}
+.cat-tile .ic-fb{display:none;position:absolute;inset:0;place-items:center;color:var(--gold);
+  background:radial-gradient(circle at 32% 28%,color-mix(in srgb,var(--gold) 20%,transparent),transparent 52%),var(--bg-2)}
+.cat-tile .ic-fb svg{width:58px;height:58px}
+.cat-tile.no-photo .ph img{display:none}
+.cat-tile.no-photo .ic-fb{display:grid}
+.cat-tile .shade{position:absolute;inset:0;transition:opacity .3s;
+  background:linear-gradient(to top,rgba(26,16,8,.90) 5%,rgba(26,16,8,.34) 50%,rgba(26,16,8,.05) 100%)}
+.cat-tile:hover .shade{opacity:.88}
+.cat-tile::before{ /* shine sweep */
+  content:'';position:absolute;top:0;inset-inline-start:-60%;width:50%;height:100%;z-index:3;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,248,232,.42),transparent);
+  transform:skewX(-18deg);transition:inset-inline-start .6s ease}
+.cat-tile:hover::before{inset-inline-start:130%}
+.cat-tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  box-shadow:inset 0 0 0 1px rgba(203,169,106,.30)}
+.cat-tile:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+.cat-tile:active{transform:translateY(-2px) scale(.98)}
+.cat-tile .info{position:absolute;inset-inline:0;bottom:0;z-index:3;padding:13px 15px;text-align:start;color:#FCF3E0}
+.cat-tile .info b{display:block;font-size:17px;line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.cat-tile .info .en{display:block;font-size:8.8px;letter-spacing:.24em;color:var(--gold-2);margin-top:5px;text-transform:uppercase}
+.cat-tile .cnt{position:absolute;top:10px;inset-inline-start:10px;z-index:3;font-size:9.5px;font-weight:600;
+  background:rgba(26,16,8,.58);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(203,169,106,.45);color:#F3E2C0;padding:3px 10px;border-radius:99px}
+
+/* reveal system */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ================= CHIPS ================= */
+.chips{
+  position:sticky;top:60px;z-index:30;display:flex;gap:8px;overflow-x:auto;
+  padding:11px 16px;scrollbar-width:none;
+  background:color-mix(in srgb,var(--bg) 86%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto;padding:8px 16px;border-radius:99px;font-size:13px;font-weight:500;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-soft);cursor:pointer;
+  transition:all .25s;font-family:inherit;
+}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--deep);border-color:var(--deep);color:var(--bg);font-weight:600;box-shadow:0 6px 16px rgba(58,40,23,.22)}
+html.dark .chip.on{color:#231A11}
+
+/* ================= CATEGORY VIEW ================= */
+.cat-hero{position:relative;height:clamp(230px,42vw,320px);overflow:hidden}
+.cat-hero img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.02);
+  transform:scale(1.06);animation:kenburns 16s ease-in-out infinite alternate}
+/* pixel stops so the dark band always sits exactly under the title, at any hero height */
+.cat-hero .scrim{position:absolute;inset:0;background:
+  linear-gradient(0deg,var(--bg) 0px,rgba(24,15,7,.90) 26px,rgba(24,15,7,.46) 130px,transparent 230px),
+  linear-gradient(90deg,rgba(24,15,7,.45),transparent 58%)}
+.cat-hero .fallback{display:none;position:absolute;inset:0;place-items:center;color:var(--gold);
+  background:radial-gradient(circle at 30% 30%,color-mix(in srgb,var(--gold) 16%,transparent),transparent 45%),var(--bg-2)}
+.cat-hero .fallback svg{width:84px;height:84px;opacity:.85}
+.cat-hero.no-photo img{display:none}
+.cat-hero.no-photo .fallback{display:grid}
+.cat-hero .htxt{position:absolute;inset-inline-start:20px;bottom:34px;z-index:2;color:#FBF3E1}
+.cat-hero .htxt h2{font-family:'Aref Ruqaa',serif;font-weight:700;font-size:clamp(26px,7vw,40px);
+  text-shadow:0 3px 16px rgba(0,0,0,.5);animation:slideIn .7s cubic-bezier(.2,.8,.2,1) both}
+.cat-hero .htxt .en{font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.34em;color:#E7C88E;margin-top:7px;text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.75);
+  animation:slideIn .7s ease both .12s}
+@keyframes slideIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+
+.items{max-width:880px;margin:auto;padding:22px 16px 26px;display:grid;gap:13px;position:relative;z-index:1}
+@media(min-width:720px){.items{grid-template-columns:1fr 1fr}}
+.item{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:17px 18px;display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s;
+}
+.item::before{content:'';position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(var(--gold),var(--accent));transform:scaleY(0);transform-origin:top;transition:transform .3s}
+.item:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
+.item:hover::before{transform:scaleY(1)}
+.item .row{display:flex;align-items:baseline;gap:10px}
+.item .nm{font-weight:700;font-size:16px;flex:0 0 auto;letter-spacing:.02em}
+.item .dots{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px);min-width:14px}
+.item .pr{white-space:nowrap;color:var(--accent);font-weight:700;font-size:17px}
+.item .pr small{font-size:10.5px;color:var(--ink-soft);font-weight:500;margin-inline-start:2px}
+.item p{font-size:12.8px;line-height:1.8;color:var(--ink-soft);font-weight:300}
+.star{position:absolute;top:-1px;inset-inline-end:0;background:linear-gradient(120deg,var(--gold-2),var(--gold));
+  color:#2E2113;font-size:10px;font-weight:700;padding:4px 12px;border-end-start-radius:12px;letter-spacing:.03em;
+  box-shadow:0 4px 12px rgba(58,40,23,.28);overflow:hidden}
+.star::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:translateX(-120%);animation:starshine 3.6s ease infinite 1s}
+@keyframes starshine{0%,60%{transform:translateX(-120%)}100%{transform:translateX(140%)}}
+.item.feast{grid-column:1/-1;border:1.5px solid var(--gold);
+  background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 14%,var(--card)),var(--card) 58%)}
+.item.feast .nm{font-size:18px}
+.item.feast::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,248,230,.35) 50%,transparent 60%);
+  transform:translateX(-120%);animation:sweep2 5s ease infinite 1.5s}
+@keyframes sweep2{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+
+.nav-cats{max-width:880px;margin:auto;display:flex;justify-content:space-between;gap:10px;padding:6px 16px 54px}
+.nav-cats button{
+  flex:1;max-width:48%;padding:14px 15px;border-radius:14px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;gap:9px;transition:border-color .2s,transform .2s,box-shadow .2s}
+.nav-cats button:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+.nav-cats button:active{transform:scale(.96)}
+.nav-cats button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-cats button svg{transition:transform .25s}
+.nav-cats .prev:hover svg{transform:translateX(4px)}
+.nav-cats .nx{justify-content:flex-end}
+.nav-cats .nx:hover svg{transform:translateX(-4px)}
+
+/* ================= SEARCH ================= */
+#searchOv{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--bg) 95%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;flex-direction:column}
+#searchOv.open{display:flex;animation:fadeUp .25s ease}
+.s-bar{max-width:880px;width:100%;margin:auto;display:flex;gap:10px;padding:16px;align-items:center}
+.s-bar input{flex:1;padding:14px 18px;border-radius:14px;border:1.5px solid var(--gold);outline:none;
+  background:var(--card);color:var(--ink);font-family:inherit;font-size:15px;box-shadow:0 0 0 4px var(--ring)}
+.s-res{flex:1;overflow-y:auto;padding:4px 16px 40px;max-width:880px;width:100%;margin:auto}
+.s-hint{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:36px}
+.s-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;
+  cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color .2s,transform .2s}
+.s-item:hover{border-color:var(--gold);transform:translateX(-3px)}
+.s-item .c{font-size:10.5px;color:var(--gold);background:var(--chip);padding:2px 9px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.s-item b{flex:1;font-size:14px}
+.s-item .p{color:var(--accent);font-weight:700;font-size:14px;white-space:nowrap}
+
+/* ================= FOOTER ================= */
+footer{border-top:1px solid var(--line);margin-top:10px;position:relative;z-index:1;
+  background:var(--bg-2);text-align:center;padding:34px 20px 42px}
+footer .cup{display:block;width:34px;height:34px;margin:0 auto}
+footer h3{letter-spacing:.18em;font-size:17px;margin-top:10px}
+footer .ft-tag{color:var(--ink-soft);font-size:12px;margin-top:6px;letter-spacing:.06em}
+footer .orn{display:flex;justify-content:center;gap:8px;margin-top:16px;color:var(--gold)}
+footer .orn span{width:5px;height:5px;border:1px solid var(--gold);transform:rotate(45deg)}
+footer .orn span:nth-child(2){background:var(--gold)}
+footer .mini{margin-top:20px;font-size:10px;color:var(--ink-soft);letter-spacing:.24em}
+
+/* view switching + page transition */
+#viewHome,#viewCat{display:none}
+#viewHome.on,#viewCat.on{display:block}
+.page-enter{animation:pageEnter .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes pageEnter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.05s!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SPLASH ============ -->
+<div id="splash" aria-hidden="true">
+  <div class="em-wrap" id="splashEmblem"></div>
+  <div class="since lat">COFFEE SHOP &nbsp;·&nbsp; LEBANESE BAKERY</div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header id="hdr">
+  <div class="hd-in">
+    <div class="hd-logo" onclick="go('home')" role="button" aria-label="الرئيسية">
+      <span class="cup" id="hdCup"></span>
+      <div class="hd-name lat"><b>LA ROUCHE</b><span>SINCE 2010</span></div>
+    </div>
+    <div class="hd-sp"></div>
+    <button class="icon-btn" id="btnSearch" aria-label="بحث">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    </button>
+    <button class="icon-btn" id="btnTheme" aria-label="الوضع الليلي">
+      <svg id="moonIc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+      <svg id="sunIc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<main id="viewHome" class="on">
+  <section class="hero">
+    <div class="hero-bg"><img src="assets/photos/counter.jpg" alt="" onerror="this.parentElement.remove()"></div>
+    <div class="em-wrap" id="heroEmblem"></div>
+    <p class="tag">مخبوزاتٌ على أصولها &amp; قهوةٌ معمولة <em>بحب</em> — من قلب 2010</p>
+    <div class="est lat">EST. 2010</div>
+  </section>
+
+  <div class="grid-wrap">
+    <div class="sec-title"><span>اختار من قوائمنا</span></div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</main>
+
+<!-- ============ CATEGORY ============ -->
+<main id="viewCat">
+  <nav class="chips" id="chips" aria-label="الأقسام"></nav>
+  <div class="cat-hero" id="catHero">
+    <img id="catImg" alt="">
+    <div class="fallback" id="catFallback"></div>
+    <div class="scrim"></div>
+    <div class="htxt">
+      <h2 class="rq" id="catTitle"></h2>
+      <div class="en" id="catEn"></div>
+    </div>
+  </div>
+  <div class="items" id="itemsBox"></div>
+  <div class="nav-cats">
+    <button class="prev" id="prevCat"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l6 6-6 6" transform="rotate(180 12 12)"/></svg><span></span></button>
+    <button class="nx" id="nextCat"><span></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l-6 6 6 6" transform="rotate(180 12 12)"/></svg></button>
+  </div>
+</main>
+
+<!-- ============ SEARCH ============ -->
+<div id="searchOv">
+  <div class="s-bar">
+    <input id="sInput" type="search" placeholder="دوّر على أي صنف… برجر، لاتيه، تشيز كيك" autocomplete="off">
+    <button class="icon-btn" id="sClose" aria-label="إغلاق">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="s-res" id="sRes"><div class="s-hint">اكتب اسم الصنف وهيظهرلك فوراً ✨</div></div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <span class="cup" id="ftCup"></span>
+  <h3 class="lat">LA ROUCHE</h3>
+  <div class="ft-tag">Coffee Shop &amp; Lebanese Bakery · Since 2010</div>
+  <div class="orn"><span></span><span></span><span></span></div>
+  <div class="mini lat">MENU · LA ROUCHE · EST. 2010</div>
+</footer>
+
+<script>
+/* ============ EMBLEM MARKUP (shared) ============ */
+function emblemSVG(){return `
+<svg class="emblem" viewBox="0 0 440 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- frames -->
+  <rect class="fr-out" x="18" y="28" width="404" height="192" rx="30" stroke="var(--accent)" stroke-width="3.5"/>
+  <rect x="29" y="39" width="382" height="170" rx="21" fill="none" stroke="var(--gold)" stroke-width="1.4"/>
+  <!-- corner studs -->
+  <g fill="var(--gold)">
+    <circle cx="42" cy="52" r="2.4"/><circle cx="398" cy="52" r="2.4"/>
+    <circle cx="42" cy="196" r="2.4"/><circle cx="398" cy="196" r="2.4"/>
+  </g>
+  <!-- side ornaments -->
+  <g stroke="var(--gold)" stroke-width="1.3" fill="none" opacity=".85">
+    <path d="M24 110 l7 -6 M24 140 l7 6"/><path d="M416 110 l-7 -6 M416 140 l-7 6"/>
+  </g>
+  <!-- steam -->
+  <path class="steam s1" d="M208 58 q-6 -7 -1 -13 q5 -6 -1 -12"/>
+  <path class="steam s2" d="M220 56 q-6 -7 -1 -13 q5 -6 -1 -12"/>
+  <path class="steam s3" d="M232 58 q-6 -7 -1 -13 q5 -6 -1 -12"/>
+  <!-- cup + saucer -->
+  <g stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <ellipse cx="220" cy="92" rx="41" ry="6.5"/>
+    <path d="M220 96 q-16 0 -18 -3"/>
+    <ellipse cx="220" cy="66" rx="25" ry="6"/>
+    <path d="M195 66 Q196 88 220 88 Q244 88 245 66"/>
+    <path d="M245 70 Q262 71 260 82 Q258 90 246 88"/>
+  </g>
+  <!-- SINCE / 2010 -->
+  <text class="lat" x="120" y="94" font-size="13" letter-spacing="3" fill="var(--ink-soft)" text-anchor="middle">SINCE</text>
+  <text class="lat" x="320" y="94" font-size="13" letter-spacing="3" fill="var(--ink-soft)" text-anchor="middle">2010</text>
+  <!-- rules -->
+  <line x1="96" y1="108" x2="344" y2="108" stroke="var(--accent)" stroke-width="2"/>
+  <line x1="120" y1="164" x2="320" y2="164" stroke="var(--accent)" stroke-width="1.6"/>
+  <!-- brand -->
+  <text class="lat" x="220" y="150" font-size="43" font-weight="900" letter-spacing="7" text-anchor="middle" fill="var(--ink)">LA ROUCHE</text>
+  <!-- sub labels -->
+  <text class="lat" x="122" y="185" font-size="9.5" letter-spacing="2" fill="var(--ink-soft)" text-anchor="middle">COFFEE SHOP</text>
+  <text class="lat" x="318" y="185" font-size="9.5" letter-spacing="2" fill="var(--ink-soft)" text-anchor="middle">BAKERY</text>
+  <!-- wheat sprig -->
+  <g stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".85">
+    <path d="M220 176 L220 200"/>
+    <path d="M220 182 q-7 -1 -9 5 q7 1 9 -5 M220 182 q7 -1 9 5 q-7 1 -9 -5"/>
+    <path d="M220 190 q-7 -1 -9 5 q7 1 9 -5 M220 190 q7 -1 9 5 q-7 1 -9 -5"/>
+  </g>
+</svg>`;}
+
+function cupSVG(){return `
+<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="24" cy="36" rx="15" ry="2.8"/>
+    <ellipse cx="24" cy="22" rx="11" ry="3"/>
+    <path d="M13 22 Q13.5 33 24 33 Q34.5 33 35 22"/>
+    <path d="M35 24 Q41.5 25 40 30 Q38.5 34.6 33 33.4"/>
+  </g>
+  <path class="steam s1" d="M19 16 q-3 -3.5 0 -6.5 q3 -3 0 -6"/>
+  <path class="steam s2" d="M29 16 q-3 -3.5 0 -6.5 q3 -3 0 -6"/>
+</svg>`;}
+
+/* ================== DATA ================== */
+const IC = {
+  meals:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 33h36"/><path d="M10 33a14 14 0 0 1 28 0"/><path d="M24 19v-3"/><circle cx="24" cy="14" r="2"/><path d="M4 39h40" stroke-width="2.6"/></svg>`,
+  manakish:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="11" stroke-dasharray="3 4"/><circle cx="20" cy="21" r="1.4" fill="currentColor"/><circle cx="28" cy="26" r="1.4" fill="currentColor"/><circle cx="23" cy="29" r="1.4" fill="currentColor"/></svg>`,
+  adds:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 20 L12 42 H36 L34 20Z"/><path d="M18 20V9M24 20V6M30 20V9M21 20v-9M27 20v-10" stroke-width="2"/></svg>`,
+  sandwiches:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 20q16-14 32 0v3H8Z"/><path d="M8 28h32M6 33h36q-2 7-8 7H14q-6 0-8-7Z"/><circle cx="18" cy="15" r="1" fill="currentColor"/><circle cx="26" cy="13" r="1" fill="currentColor"/><circle cx="32" cy="16" r="1" fill="currentColor"/></svg>`,
+  desserts:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 40 L38 40 L38 22 Q24 14 10 22Z"/><path d="M10 28q14-7 28 0"/><path d="M24 14v-4"/><circle cx="24" cy="8" r="2"/></svg>`,
+  kaaka:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="24" cy="26" r="14"/><circle cx="24" cy="26" r="5.5"/><path d="M16 15l-2-4M24 12V8M32 15l2-4" stroke-width="1.8" opacity=".7"/></svg>`,
+  shakes:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 16 L18 42 H30 L34 16Z"/><path d="M12 16h24"/><path d="M14 10q10-5 20 0"/><path d="M26 16 L31 4"/></svg>`,
+  croissant:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 30 Q6 22 13 20 Q17 12 24 14 Q31 12 35 20 Q42 22 40 30 Q37 37 30 35 Q24 39 18 35 Q11 37 8 30Z"/><path d="M18 20v14M30 20v14" opacity=".7" stroke-width="1.8"/></svg>`,
+  cold:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 10 L18 42 H30 L33 10Z"/><path d="M14 6h20"/><rect x="20" y="20" width="5" height="5" rx="1.4" transform="rotate(12 22 22)"/><rect x="24" y="28" width="5" height="5" rx="1.4" transform="rotate(-9 26 30)"/></svg>`,
+  hot:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 20h26v10a11 11 0 0 1-22 0V20Z" transform="translate(0 4)"/><path d="M35 26q7-1 7 5t-8 5" transform="translate(0 2)"/><path d="M17 14q3-4 0-8M24 13q3-4 0-8M31 14q3-4 0-8" stroke-width="1.8" opacity=".7"/></svg>`
+};
+
+const MENU = [
+ {id:'meals', ar:'الوجبات', en:'Make-It-A-Meal', icon:'meals', items:[
+   {en:'Shish Tawook Solo Meal', ar:'وجبة كاملة: شيش طاووق متبل ومثالي مع باك بطاطس وعصير فراولة طازج ومنعش — مثالية لشخص واحد.', price:235},
+   {en:'Soirée Family Feast For 4', ar:'وليمة عائلية سخية تكفي ٤ أفراد: دستة لحم بعلبكية + دستة زعتر وجبنة + دستة بيتزا خضار + طبق تبولة طازج + ٢ عصير بطيخ منعش.', price:710, star:'وليمة العيلة ⭐', feast:true},
+ ]},
+ {id:'manakish', ar:'المناقيش', en:'Mankosha', icon:'manakish', items:[
+   {en:'Labna (Pizza)', ar:'لبنة مفرودة كريمية على عجينة مخبوزة بشكل مثالي.', price:90},
+   {en:'Sausage, Cheese & Vegetables', ar:'سجق متبل مع جبنة ذائبة وخضروات طازجة في مزيج شهي.', price:150},
+   {en:'Cheese & Pepperoni', ar:'جبنة لذيذة مع شرائح الببروني تضيف طابعاً مدخناً مميزاً.', price:150, star:'الأكثر طلباً'},
+   {en:'Double Cheese', ar:'طبقتان من الجبنة الذائبة لقوام غني وكريمي للغاية.', price:130},
+   {en:'Labna Sandwich', ar:'لبنة ناعمة داخل خبز طازج تمنحك طعماً خفيفاً ومنعشاً.', price:75},
+ ]},
+ {id:'sandwiches', ar:'السندوتشات', en:'Sandwiches', icon:'sandwiches', items:[
+   {en:'Beef Burger', ar:'قطعة لحم مشوي مع صوصات مميزة وخضروات طازجة — برجر كلاسيكي بطعم لا يُقاوم.', price:140},
+   {en:'Chicken Burger', ar:'برجر دجاج مقرمش ولذيذ يقدم مع الخضروات والصوص.', price:125},
+   {en:'Double Beef Burger', ar:'قطعتان من اللحم البقري العصاري مع الجبنة والصوصات لمضاعفة المتعة — تجربة غنية ومشبعة لعشاق البرجر.', price:230, star:'الأكثر طلباً'},
+   {en:'Shish Tawook', ar:'قطع دجاج مشوية ومتبلة ببراعة مع صوص لذيذ وخضروات طازجة — طعم غني بنكهة الشواء يرضي جميع الأذواق.', price:120},
+   {en:'Kofta', ar:'أصابع كفتة مشوية متبلة على الطريقة الشرقية داخل خبز طازج مع الخضروات.', price:170},
+ ]},
+ {id:'kaaka', ar:'الكعك', en:'Kaaka', icon:'kaaka', items:[
+   {en:'Cheese', ar:'عجينة طازجة محشوة بالجبنة اللذيذة التي تذوب مع كل قضمة — خيار بسيط ولذيذ لعشاق المذاق الكلاسيكي.', price:120},
+   {en:'Cheese & Vegetables', ar:'جبنة ذائبة مع خضروات طازجة تضيف قرمشة وانتعاشاً — مزيج متوازن يجمع بين الطعم الغني والخفيف.', price:150},
+ ]},
+ {id:'croissant', ar:'الكرواسون', en:'Croissant', icon:'croissant', items:[
+   {en:'Plain Croissant', ar:'كرواسون سادة هش ومخبوز طازجاً بالزبدة الفاخرة.', price:50},
+   {en:'Cheese Croissant', ar:'كرواسون طازج محشو بالجبنة الغنية والذائبة.', price:70},
+   {en:'Chocolate Croissant', ar:'محشو ومزين بصوص الشوكولاتة اللذيذة.', price:75, star:'الأكثر طلباً'},
+   {en:'Almond Croissant', ar:'محشو بكريمة اللوز الغنية ومغطى برقائق اللوز المقرمشة والسكر البودرة.', price:85},
+ ]},
+ {id:'desserts', ar:'الحلويات', en:'Desserts', icon:'desserts', items:[
+   {en:'Chocolate Cheese Cake', ar:'تشيز كيك الشوكولاتة بقوام غني وكثيف ونكهة عميقة — حلوى مثالية لعشاق الشوكولاتة.', price:110},
+   {en:'Cheese Cake', ar:'تشيز كيك كلاسيكي بقوام ناعم وكريمي ومذاق هادئ — اختيار بسيط وأنيق يحبه الجميع.', price:100},
+   {en:'Chocolate & Hazelnut Cake', ar:'كيك شوكولاتة غني مع لمسة من البندق لنكهة فاخرة — قوام ناعم وطعم متوازن لعشاق الحلويات الفاخرة.', price:100},
+   {en:'Tiramisu', ar:'حلوى إيطالية بطبقات من القهوة والكريمة بنكهة متوازنة — قوام ناعم ومذاق فاخر يرضي أصحاب الذوق الرفيع.', price:130, star:'اختيار الشيف'},
+   {en:'Brownies', ar:'براونيز شوكولاتة بقوام طري ومكثف بالنكهة من الداخل — حلوى كلاسيكية غنية لجميع عشاق الشوكولاتة.', price:75},
+ ]},
+ {id:'shakes', ar:'ميلك شيك', en:'Milk Shake', icon:'shakes', items:[
+   {en:'Vanilla', ar:'قوام كريمي ناعم ومذاق كلاسيكي لذيذ — مثالي لعشاق النكهات الهادئة والمنعشة.', price:100},
+   {en:'Mango', ar:'نكهة استوائية وقوام كريمي فاخر — تجربة منعشة تجمع بين الحلاوة والانتعاش.', price:110},
+   {en:'Chocolate', ar:'شوكولاتة غنية بقوام مخملي وطعم لذيذ — الاختيار الأمثل لعشاق الشوكولاتة في كل الأوقات.', price:125},
+   {en:'Passion Fruit', ar:'يجمع بين الحلاوة والحموضة مع قوام كريمي — تجربة استوائية منعشة ومختلفة.', price:125},
+   {en:'Strawberry', ar:'مذاق حلو ومنعش وقوام غني — مزيج رائع يضفي لمسة من الحيوية مع كل رشفة.', price:110},
+   {en:'Pistachio', ar:'نكهة غنية وقوام كريمي فاخر — اختيار مثالي لعشاق المذاق المميز والرفيع.', price:140, star:'اختيار الشيف'},
+ ]},
+ {id:'hot', ar:'المشروبات الساخنة', en:'Hot Drinks', icon:'hot', items:[
+   {en:'Single Espresso', ar:'جرعة إسبريسو مركزة ونقية.', price:40},
+   {en:'Double Espresso', ar:'جرعة مضاعفة من قهوة الإسبريسو الغنية.', price:50},
+   {en:'Americano', ar:'قهوة سوداء مخففة بالماء الساخن على الطريقة الأمريكية الكلاسيكية.', price:55},
+   {en:'Café Latte', ar:'إسبريسو مع الحليب المبخر الكريمي وطبقة خفيفة من الرغوة.', price:65},
+   {en:'Cappuccino', ar:'توازن مثالي بين الإسبريسو والحليب المبخر ورغوة الحليب الغنية.', price:65, star:'الأكثر طلباً'},
+   {en:'Flat White', ar:'جرعة إسبريسو قوية مع حليب مخملي ناعم وقليل الرغوة.', price:60},
+   {en:'Turkish Coffee (Plain)', ar:'قهوة تركية تقليدية سادة بالوجه.', price:35},
+   {en:'Turkish Coffee (Cardamom)', ar:'قهوة تركية محوّجة بالحبهان الفاخر.', price:45},
+   {en:'Hot Chocolate', ar:'شوكولاتة ساخنة غنية وكريمية مغطاة برغوة الحليب.', price:70},
+   {en:'Tea', ar:'كوب شاي أحمر كلاسيكي ممتاز.', price:25},
+   {en:'Green Tea', ar:'كوب شاي أخضر منعش ومفيد.', price:25},
+ ]},
+ {id:'cold', ar:'المشروبات الباردة', en:'Soft Drinks & Juices', icon:'cold', items:[
+   {en:'Fresh Orange Juice', ar:'عصير برتقال طبيعي طازج.', price:55},
+   {en:'Fresh Strawberry Juice', ar:'عصير فراولة طبيعي منعش.', price:60},
+   {en:'Fresh Mango Juice', ar:'عصير مانجو طبيعي كثيف وغني.', price:70, star:'الأكثر طلباً'},
+   {en:'Coke / Sprite / Fanta', ar:'مشروبات غازية منعشة (كانز).', price:30},
+   {en:'Red Bull', ar:'مشروب طاقة.', price:65},
+   {en:'Small Water', ar:'زجاجة مياه معدنية صغيرة.', price:15},
+   {en:'Large Water', ar:'زجاجة مياه معدنية كبيرة.', price:25},
+ ]},
+ {id:'adds', ar:'الإضافات', en:'Add-Ons', icon:'adds', items:[
+   {en:'Combo', ar:'مشروب + بطاطس مقلية.', price:45},
+   {en:'Fries Pack', ar:'أصابع بطاطس فرنسية ذهبية، مقرمشة من الخارج وطرية من الداخل — الرفيق المثالي لأي سندوتش.', price:40},
+   {en:'Fries Plate', ar:'كمية كبيرة من البطاطس المقرمشة تقدم ساخنة ولذيذة — مثالية للمشاركة أو الاستمتاع الفردي.', price:45},
+   {en:'Taboula', ar:'سلطة تبولة طازجة مليئة بالبقدونس والطماطم وعصير الليمون — نكهة منعشة تضيف توازناً رائعاً للوجبة.', price:60},
+ ]},
+];
+
+/* ================== HELPERS ================== */
+const $ = s => document.querySelector(s);
+const fmt = p => `${p} <small>ج.م</small>`;
+
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
+},{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+function observeReveals(root){ (root||document).querySelectorAll('.reveal:not(.in)').forEach(el=>revealObserver.observe(el)); }
+
+/* ================== RENDER ================== */
+function renderHome(){
+  $('#catGrid').innerHTML = MENU.map((c,i)=>`
+    <div class="cat-tile reveal" style="transition-delay:${i*0.05}s" onclick="go('${c.id}')" role="button">
+      <div class="ph">
+        <img src="assets/photos/${c.id}.jpg" alt="${c.ar}"
+             onerror="this.closest('.cat-tile').classList.add('no-photo')">
+        <div class="ic-fb">${IC[c.icon]}</div>
+      </div>
+      <div class="shade"></div>
+      <span class="cnt">${c.items.length} صنف</span>
+      <div class="info"><b>${c.ar}</b><span class="en">${c.en}</span></div>
+    </div>`).join('');
+  observeReveals($('#viewHome'));
+}
+
+function renderChips(activeId){
+  $('#chips').innerHTML = MENU.map(c=>`
+    <button class="chip ${c.id===activeId?'on':''}" onclick="go('${c.id}')">${c.ar}</button>`).join('');
+  const on = $('#chips .chip.on');
+  if(on) on.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+}
+
+function renderCat(id){
+  const idx = MENU.findIndex(c=>c.id===id);
+  if(idx<0) return go('home');
+  const c = MENU[idx];
+  renderChips(id);
+  $('#catTitle').textContent = c.ar;
+  $('#catEn').textContent = c.en;
+  $('#catFallback').innerHTML = IC[c.icon];
+  const hero = $('#catHero'), img = $('#catImg');
+  hero.classList.remove('no-photo');
+  img.onerror = ()=> hero.classList.add('no-photo');
+  img.src = `assets/photos/${c.id}.jpg`;
+  img.alt = c.ar;
+  $('#itemsBox').innerHTML = c.items.map((it,i)=>`
+    <div class="item reveal ${it.feast?'feast':''}" style="transition-delay:${i*0.06}s">
+      ${it.star?`<span class="star">${it.star}</span>`:''}
+      <div class="row">
+        <span class="nm lat">${it.en}</span>
+        <span class="dots"></span>
+        <span class="pr">${fmt(it.price)}</span>
+      </div>
+      <p>${it.ar}</p>
+    </div>`).join('');
+  const prev = MENU[(idx-1+MENU.length)%MENU.length];
+  const next = MENU[(idx+1)%MENU.length];
+  $('#prevCat span').textContent = prev.ar;
+  $('#nextCat span').textContent = next.ar;
+  $('#prevCat').onclick = ()=>go(prev.id);
+  $('#nextCat').onclick = ()=>go(next.id);
+  observeReveals($('#viewCat'));
+}
+
+function go(id){ if(location.hash === '#'+id){ route(); } else location.hash = id; }
+function route(){
+  const id = location.hash.replace('#','') || 'home';
+  const home = id==='home';
+  $('#viewHome').classList.toggle('on', home);
+  $('#viewCat').classList.toggle('on', !home);
+  if(!home) renderCat(id); else observeReveals($('#viewHome'));
+  window.scrollTo({top:0, behavior:'instant'});
+  const view = home ? $('#viewHome') : $('#viewCat');
+  view.classList.remove('page-enter'); void view.offsetWidth; view.classList.add('page-enter');
+}
+window.addEventListener('hashchange', route);
+
+/* ================== SEARCH ================== */
+const ov = $('#searchOv'), sIn = $('#sInput'), sRes = $('#sRes');
+$('#btnSearch').onclick = ()=>{ov.classList.add('open'); sIn.value=''; sRes.innerHTML='<div class="s-hint">اكتب اسم الصنف وهيظهرلك فوراً ✨</div>'; setTimeout(()=>sIn.focus(),60)};
+$('#sClose').onclick = ()=>ov.classList.remove('open');
+ov.addEventListener('click', e=>{if(e.target===ov) ov.classList.remove('open')});
+document.addEventListener('keydown', e=>{if(e.key==='Escape') ov.classList.remove('open')});
+sIn.addEventListener('input', ()=>{
+  const q = sIn.value.trim().toLowerCase();
+  if(!q){sRes.innerHTML='<div class="s-hint">اكتب اسم الصنف وهيظهرلك فوراً ✨</div>';return}
+  const hits = [];
+  MENU.forEach(c=>c.items.forEach(it=>{
+    if(it.en.toLowerCase().includes(q) || it.ar.includes(q) || c.ar.includes(q)) hits.push({c,it});
+  }));
+  sRes.innerHTML = hits.length ? hits.map(h=>`
+    <div class="s-item" onclick="ov.classList.remove('open');go('${h.c.id}')">
+      <span class="c">${h.c.ar}</span>
+      <b>${h.it.en}</b>
+      <span class="p">${h.it.price} ج.م</span>
+    </div>`).join('')
+    : '<div class="s-hint">مفيش نتائج… جرّب كلمة تانية 🙏</div>';
+});
+
+/* ================== THEME ================== */
+const themeBtn = $('#btnTheme');
+function setTheme(dark){
+  document.documentElement.classList.toggle('dark', dark);
+  $('#moonIc').style.display = dark?'none':'block';
+  $('#sunIc').style.display = dark?'block':'none';
+  document.querySelector('meta[name=theme-color]').content = dark?'#1C140D':'#F3EBD8';
+  localStorage.setItem('lr-theme', dark?'dark':'light');
+}
+themeBtn.onclick = ()=>setTheme(!document.documentElement.classList.contains('dark'));
+setTheme(localStorage.getItem('lr-theme')==='dark');
+
+/* ================== HEADER SHADOW ON SCROLL ================== */
+addEventListener('scroll', ()=>{ $('#hdr').classList.toggle('scrolled', scrollY>8); }, {passive:true});
+
+/* ================== BOOT ================== */
+$('#splashEmblem').innerHTML = emblemSVG();
+$('#heroEmblem').innerHTML = emblemSVG();
+$('#hdCup').innerHTML = cupSVG();
+$('#ftCup').innerHTML = cupSVG();
+renderHome();
+route();
+setTimeout(()=>$('#splash').classList.add('gone'), 2600);
+</script>
+</body>
+</html>
