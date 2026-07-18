@@ -467,110 +467,49 @@ const IC = {
   hot:`<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 20h26v10a11 11 0 0 1-22 0V20Z" transform="translate(0 4)"/><path d="M35 26q7-1 7 5t-8 5" transform="translate(0 2)"/><path d="M17 14q3-4 0-8M24 13q3-4 0-8M31 14q3-4 0-8" stroke-width="1.8" opacity=".7"/></svg>`
 };
 
-const MENU = [
- {id:'meals', ar:'الوجبات', en:'Make-It-A-Meal', icon:'meals', items:[
-   {en:'Shish Tawook Solo Meal', ar:'وجبة كاملة: شيش طاووق متبل ومثالي مع باك بطاطس وعصير فراولة طازج ومنعش — مثالية لشخص واحد.', price:235},
-   {en:'Soirée Family Feast For 4', ar:'وليمة عائلية سخية تكفي ٤ أفراد: دستة لحم بعلبكية + دستة زعتر وجبنة + دستة بيتزا خضار + طبق تبولة طازج + ٢ عصير بطيخ منعش.', price:710, star:'وليمة العيلة ⭐', feast:true},
- ]},
- {id:'manakish', ar:'المناقيش', en:'Mankosha', icon:'manakish', items:[
-   {en:'Labna (Pizza)', ar:'لبنة مفرودة كريمية على عجينة مخبوزة بشكل مثالي.', price:90},
-   {en:'Sausage, Cheese & Vegetables', ar:'سجق متبل مع جبنة ذائبة وخضروات طازجة في مزيج شهي.', price:150},
-   {en:'Cheese & Pepperoni', ar:'جبنة لذيذة مع شرائح الببروني تضيف طابعاً مدخناً مميزاً.', price:150, star:'الأكثر طلباً'},
-   {en:'Double Cheese', ar:'طبقتان من الجبنة الذائبة لقوام غني وكريمي للغاية.', price:130},
-   {en:'Labna Sandwich', ar:'لبنة ناعمة داخل خبز طازج تمنحك طعماً خفيفاً ومنعشاً.', price:75},
- ]},
- {id:'sandwiches', ar:'السندوتشات', en:'Sandwiches', icon:'sandwiches', items:[
-   {en:'Beef Burger', ar:'قطعة لحم مشوي مع صوصات مميزة وخضروات طازجة — برجر كلاسيكي بطعم لا يُقاوم.', price:140},
-   {en:'Chicken Burger', ar:'برجر دجاج مقرمش ولذيذ يقدم مع الخضروات والصوص.', price:125},
-   {en:'Double Beef Burger', ar:'قطعتان من اللحم البقري العصاري مع الجبنة والصوصات لمضاعفة المتعة — تجربة غنية ومشبعة لعشاق البرجر.', price:230, star:'الأكثر طلباً'},
-   {en:'Shish Tawook', ar:'قطع دجاج مشوية ومتبلة ببراعة مع صوص لذيذ وخضروات طازجة — طعم غني بنكهة الشواء يرضي جميع الأذواق.', price:120},
-   {en:'Kofta', ar:'أصابع كفتة مشوية متبلة على الطريقة الشرقية داخل خبز طازج مع الخضروات.', price:170},
- ]},
- {id:'kaaka', ar:'الكعك', en:'Kaaka', icon:'kaaka', items:[
-   {en:'Cheese', ar:'عجينة طازجة محشوة بالجبنة اللذيذة التي تذوب مع كل قضمة — خيار بسيط ولذيذ لعشاق المذاق الكلاسيكي.', price:120},
-   {en:'Cheese & Vegetables', ar:'جبنة ذائبة مع خضروات طازجة تضيف قرمشة وانتعاشاً — مزيج متوازن يجمع بين الطعم الغني والخفيف.', price:150},
- ]},
- {id:'croissant', ar:'الكرواسون', en:'Croissant', icon:'croissant', items:[
-   {en:'Plain Croissant', ar:'كرواسون سادة هش ومخبوز طازجاً بالزبدة الفاخرة.', price:50},
-   {en:'Cheese Croissant', ar:'كرواسون طازج محشو بالجبنة الغنية والذائبة.', price:70},
-   {en:'Chocolate Croissant', ar:'محشو ومزين بصوص الشوكولاتة اللذيذة.', price:75, star:'الأكثر طلباً'},
-   {en:'Almond Croissant', ar:'محشو بكريمة اللوز الغنية ومغطى برقائق اللوز المقرمشة والسكر البودرة.', price:85},
- ]},
- {id:'desserts', ar:'الحلويات', en:'Desserts', icon:'desserts', items:[
-   {en:'Chocolate Cheese Cake', ar:'تشيز كيك الشوكولاتة بقوام غني وكثيف ونكهة عميقة — حلوى مثالية لعشاق الشوكولاتة.', price:110},
-   {en:'Cheese Cake', ar:'تشيز كيك كلاسيكي بقوام ناعم وكريمي ومذاق هادئ — اختيار بسيط وأنيق يحبه الجميع.', price:100},
-   {en:'Chocolate & Hazelnut Cake', ar:'كيك شوكولاتة غني مع لمسة من البندق لنكهة فاخرة — قوام ناعم وطعم متوازن لعشاق الحلويات الفاخرة.', price:100},
-   {en:'Tiramisu', ar:'حلوى إيطالية بطبقات من القهوة والكريمة بنكهة متوازنة — قوام ناعم ومذاق فاخر يرضي أصحاب الذوق الرفيع.', price:130, star:'اختيار الشيف'},
-   {en:'Brownies', ar:'براونيز شوكولاتة بقوام طري ومكثف بالنكهة من الداخل — حلوى كلاسيكية غنية لجميع عشاق الشوكولاتة.', price:75},
- ]},
- {id:'shakes', ar:'ميلك شيك', en:'Milk Shake', icon:'shakes', items:[
-   {en:'Vanilla', ar:'قوام كريمي ناعم ومذاق كلاسيكي لذيذ — مثالي لعشاق النكهات الهادئة والمنعشة.', price:100},
-   {en:'Mango', ar:'نكهة استوائية وقوام كريمي فاخر — تجربة منعشة تجمع بين الحلاوة والانتعاش.', price:110},
-   {en:'Chocolate', ar:'شوكولاتة غنية بقوام مخملي وطعم لذيذ — الاختيار الأمثل لعشاق الشوكولاتة في كل الأوقات.', price:125},
-   {en:'Passion Fruit', ar:'يجمع بين الحلاوة والحموضة مع قوام كريمي — تجربة استوائية منعشة ومختلفة.', price:125},
-   {en:'Strawberry', ar:'مذاق حلو ومنعش وقوام غني — مزيج رائع يضفي لمسة من الحيوية مع كل رشفة.', price:110},
-   {en:'Pistachio', ar:'نكهة غنية وقوام كريمي فاخر — اختيار مثالي لعشاق المذاق المميز والرفيع.', price:140, star:'اختيار الشيف'},
- ]},
- {id:'hot', ar:'المشروبات الساخنة', en:'Hot Drinks', icon:'hot', items:[
-   {en:'Single Espresso', ar:'جرعة إسبريسو مركزة ونقية.', price:40},
-   {en:'Double Espresso', ar:'جرعة مضاعفة من قهوة الإسبريسو الغنية.', price:50},
-   {en:'Americano', ar:'قهوة سوداء مخففة بالماء الساخن على الطريقة الأمريكية الكلاسيكية.', price:55},
-   {en:'Café Latte', ar:'إسبريسو مع الحليب المبخر الكريمي وطبقة خفيفة من الرغوة.', price:65},
-   {en:'Cappuccino', ar:'توازن مثالي بين الإسبريسو والحليب المبخر ورغوة الحليب الغنية.', price:65, star:'الأكثر طلباً'},
-   {en:'Flat White', ar:'جرعة إسبريسو قوية مع حليب مخملي ناعم وقليل الرغوة.', price:60},
-   {en:'Turkish Coffee (Plain)', ar:'قهوة تركية تقليدية سادة بالوجه.', price:35},
-   {en:'Turkish Coffee (Cardamom)', ar:'قهوة تركية محوّجة بالحبهان الفاخر.', price:45},
-   {en:'Hot Chocolate', ar:'شوكولاتة ساخنة غنية وكريمية مغطاة برغوة الحليب.', price:70},
-   {en:'Tea', ar:'كوب شاي أحمر كلاسيكي ممتاز.', price:25},
-   {en:'Green Tea', ar:'كوب شاي أخضر منعش ومفيد.', price:25},
- ]},
- {id:'cold', ar:'المشروبات الباردة', en:'Soft Drinks & Juices', icon:'cold', items:[
-   {en:'Fresh Orange Juice', ar:'عصير برتقال طبيعي طازج.', price:55},
-   {en:'Fresh Strawberry Juice', ar:'عصير فراولة طبيعي منعش.', price:60},
-   {en:'Fresh Mango Juice', ar:'عصير مانجو طبيعي كثيف وغني.', price:70, star:'الأكثر طلباً'},
-   {en:'Coke / Sprite / Fanta', ar:'مشروبات غازية منعشة (كانز).', price:30},
-   {en:'Red Bull', ar:'مشروب طاقة.', price:65},
-   {en:'Small Water', ar:'زجاجة مياه معدنية صغيرة.', price:15},
-   {en:'Large Water', ar:'زجاجة مياه معدنية كبيرة.', price:25},
- ]},
- {id:'adds', ar:'الإضافات', en:'Add-Ons', icon:'adds', items:[
-   {en:'Combo', ar:'مشروب + بطاطس مقلية.', price:45},
-   {en:'Fries Pack', ar:'أصابع بطاطس فرنسية ذهبية، مقرمشة من الخارج وطرية من الداخل — الرفيق المثالي لأي سندوتش.', price:40},
-   {en:'Fries Plate', ar:'كمية كبيرة من البطاطس المقرمشة تقدم ساخنة ولذيذة — مثالية للمشاركة أو الاستمتاع الفردي.', price:45},
-   {en:'Taboula', ar:'سلطة تبولة طازجة مليئة بالبقدونس والطماطم وعصير الليمون — نكهة منعشة تضيف توازناً رائعاً للوجبة.', price:60},
- ]},
-];
+let MENU = [];   // populated from data/menu.json by loadMenu()
 
 /* ================== HELPERS ================== */
 const $ = s => document.querySelector(s);
-const fmt = p => `${p} <small>ج.م</small>`;
+
+/* Menu text is data-driven (data/menu.json, editable from the dashboard),
+   so every value is escaped before it reaches innerHTML. */
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const escAttr = esc;
+const num = v => { const n = Number(v); return Number.isFinite(n) ? n : 0; };
+const fmt = p => `${esc(num(p))} <small>ج.م</small>`;
 
 const revealObserver = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
 },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
 function observeReveals(root){ (root||document).querySelectorAll('.reveal:not(.in)').forEach(el=>revealObserver.observe(el)); }
 
+/* Only ever emit an icon we own — never an arbitrary key from the JSON. */
+const icon = k => Object.prototype.hasOwnProperty.call(IC, k) ? IC[k] : IC.meals;
+
 /* ================== RENDER ================== */
 function renderHome(){
   $('#catGrid').innerHTML = MENU.map((c,i)=>`
-    <div class="cat-tile reveal" style="transition-delay:${i*0.05}s" onclick="go('${c.id}')" role="button">
+    <div class="cat-tile reveal" style="transition-delay:${i*0.05}s" data-cat="${escAttr(c.id)}" role="button" tabindex="0">
       <div class="ph">
-        <img src="assets/photos/thumb/${c.id}.jpg" alt="${c.ar}"
+        <img src="assets/photos/thumb/${encodeURIComponent(c.id)}.jpg" alt="${escAttr(c.ar)}"
              width="420" height="361" decoding="async"
              loading="${i<4?'eager':'lazy'}" ${i<4?'fetchpriority="high"':''}
              onerror="this.closest('.cat-tile').classList.add('no-photo')">
-        <div class="ic-fb">${IC[c.icon]}</div>
+        <div class="ic-fb">${icon(c.icon)}</div>
       </div>
       <div class="shade"></div>
-      <span class="cnt">${c.items.length} صنف</span>
-      <div class="info"><b>${c.ar}</b><span class="en">${c.en}</span></div>
+      <span class="cnt">${esc(c.items.length)} صنف</span>
+      <div class="info"><b>${esc(c.ar)}</b><span class="en">${esc(c.en)}</span></div>
     </div>`).join('');
   observeReveals($('#viewHome'));
 }
 
 function renderChips(activeId){
   $('#chips').innerHTML = MENU.map(c=>`
-    <button class="chip ${c.id===activeId?'on':''}" onclick="go('${c.id}')">${c.ar}</button>`).join('');
+    <button class="chip ${c.id===activeId?'on':''}" data-cat="${escAttr(c.id)}">${esc(c.ar)}</button>`).join('');
   const on = $('#chips .chip.on');
   if(on) on.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
 }
@@ -582,21 +521,21 @@ function renderCat(id){
   renderChips(id);
   $('#catTitle').textContent = c.ar;
   $('#catEn').textContent = c.en;
-  $('#catFallback').innerHTML = IC[c.icon];
+  $('#catFallback').innerHTML = icon(c.icon);
   const hero = $('#catHero'), img = $('#catImg');
   hero.classList.remove('no-photo');
   img.onerror = ()=> hero.classList.add('no-photo');
-  img.src = `assets/photos/${c.id}.jpg`;
+  img.src = `assets/photos/${encodeURIComponent(c.id)}.jpg`;
   img.alt = c.ar;
   $('#itemsBox').innerHTML = c.items.map((it,i)=>`
     <div class="item reveal ${it.feast?'feast':''}" style="transition-delay:${i*0.06}s">
-      ${it.star?`<span class="star">${it.star}</span>`:''}
+      ${it.star?`<span class="star">${esc(it.star)}</span>`:''}
       <div class="row">
-        <span class="nm lat">${it.en}</span>
+        <span class="nm lat">${esc(it.en)}</span>
         <span class="dots"></span>
         <span class="pr">${fmt(it.price)}</span>
       </div>
-      <p>${it.ar}</p>
+      <p>${esc(it.ar)}</p>
     </div>`).join('');
   const prev = MENU[(idx-1+MENU.length)%MENU.length];
   const next = MENU[(idx+1)%MENU.length];
@@ -634,12 +573,27 @@ sIn.addEventListener('input', ()=>{
     if(it.en.toLowerCase().includes(q) || it.ar.includes(q) || c.ar.includes(q)) hits.push({c,it});
   }));
   sRes.innerHTML = hits.length ? hits.map(h=>`
-    <div class="s-item" onclick="ov.classList.remove('open');go('${h.c.id}')">
-      <span class="c">${h.c.ar}</span>
-      <b>${h.it.en}</b>
-      <span class="p">${h.it.price} ج.م</span>
+    <div class="s-item" data-cat="${escAttr(h.c.id)}">
+      <span class="c">${esc(h.c.ar)}</span>
+      <b>${esc(h.it.en)}</b>
+      <span class="p">${esc(num(h.it.price))} ج.م</span>
     </div>`).join('')
     : '<div class="s-hint">مفيش نتائج… جرّب كلمة تانية 🙏</div>';
+});
+
+/* ================== NAVIGATION (delegated — no inline handlers) ================== */
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-cat]');
+  if(!el) return;
+  ov.classList.remove('open');
+  go(el.getAttribute('data-cat'));
+});
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Enter' && e.key!==' ') return;
+  const el = e.target.closest && e.target.closest('.cat-tile[data-cat]');
+  if(!el) return;
+  e.preventDefault();
+  go(el.getAttribute('data-cat'));
 });
 
 /* ================== THEME ================== */
@@ -657,14 +611,78 @@ setTheme(localStorage.getItem('lr-theme')==='dark');
 /* ================== HEADER SHADOW ON SCROLL ================== */
 addEventListener('scroll', ()=>{ $('#hdr').classList.toggle('scrolled', scrollY>8); }, {passive:true});
 
+/* ================== MENU DATA ================== */
+const CACHE_KEY = 'lr.menu.cache.v1';
+const DRAFT_KEY = 'lr.menu.draft.v1';
+const safeId = s => /^[a-z0-9_-]+$/i.test(String(s||'')) ? String(s) : '';
+
+function isValidMenu(d){
+  return !!d && Array.isArray(d.categories) && d.categories.length > 0
+    && d.categories.every(c => c && safeId(c.id) && Array.isArray(c.items));
+}
+/* Coerce every field to the type we expect, so bad data can't break rendering. */
+function normalize(d){
+  return d.categories.map(c=>({
+    id: safeId(c.id),
+    ar: String(c.ar || ''),
+    en: String(c.en || ''),
+    icon: String(c.icon || 'meals'),
+    items: (Array.isArray(c.items)?c.items:[]).map(i=>({
+      en: String(i && i.en || ''),
+      ar: String(i && i.ar || ''),
+      price: num(i && i.price),
+      star: i && i.star ? String(i.star) : '',
+      feast: !!(i && i.feast)
+    }))
+  }));
+}
+
+async function loadMenu(){
+  let data = null;
+  // The dashboard's preview iframe passes ?preview=1 to see unpublished drafts.
+  if(new URLSearchParams(location.search).has('preview')){
+    try{ const d = JSON.parse(localStorage.getItem(DRAFT_KEY)); if(isValidMenu(d)) data = d; }catch(e){}
+  }
+  if(!data){
+    try{
+      const r = await fetch('data/menu.json', {cache:'no-cache'});
+      if(r.ok){ const j = await r.json(); if(isValidMenu(j)) data = j; }
+    }catch(e){}
+  }
+  if(data){
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify(data)); }catch(e){}
+  }else{
+    // network hiccup — fall back to the last good copy so the QR never shows a blank menu
+    try{ const c = JSON.parse(localStorage.getItem(CACHE_KEY)); if(isValidMenu(c)) data = c; }catch(e){}
+  }
+  if(!data) return false;
+  MENU = normalize(data);
+  return true;
+}
+
 /* ================== BOOT ================== */
-$('#splashEmblem').innerHTML = emblemSVG();
-$('#heroEmblem').innerHTML = emblemSVG();
-$('#hdCup').innerHTML = cupSVG();
-$('#ftCup').innerHTML = cupSVG();
-renderHome();
-route();
-setTimeout(()=>$('#splash').classList.add('gone'), 2600);
+(async function boot(){
+  $('#splashEmblem').innerHTML = emblemSVG();
+  $('#heroEmblem').innerHTML = emblemSVG();
+  $('#hdCup').innerHTML = cupSVG();
+  $('#ftCup').innerHTML = cupSVG();
+
+  const ok = await loadMenu();
+  if(ok){
+    renderHome();
+    route();
+  }else{
+    $('#catGrid').innerHTML =
+      '<p style="grid-column:1/-1;text-align:center;padding:30px 10px;color:var(--ink-soft);line-height:2">'
+      + 'تعذّر تحميل المنيو 🙏<br>اتأكد من الاتصال بالإنترنت وحدّث الصفحة.</p>';
+  }
+  setTimeout(()=>$('#splash').classList.add('gone'), ok ? 2600 : 900);
+})();
+
+// let the dashboard preview refresh instantly after each edit
+addEventListener('message', e=>{
+  if(e.origin === location.origin && e.data === 'lr:refresh') location.reload();
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+# Never commit credentials. The dashboard keeps its GitHub token in the
+# browser (localStorage) only — nothing secret belongs in this repo.
+*.token
+*.pat
+.env
+.env.*
+secrets.*
+token.txt
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
